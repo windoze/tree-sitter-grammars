@@ -27,11 +27,8 @@ jobs:
       - name: Install tree-sitter CLI
         run: npm install -g tree-sitter-cli
 
-      - name: Clone grammar repositories
+      - name: Clone grammar repositories and Build grammars and generate registry
         run: bash batch-git.sh clone
-
-      - name: Build grammars and generate registry
-        run: bash batch-git.sh
 
       - name: Package treesitter directory
         run: tar -czf treesitter.tar.gz treesitter/
