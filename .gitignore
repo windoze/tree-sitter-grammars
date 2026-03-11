@@ -1,0 +1,4 @@
+tree-sitter-*/
+treesitter/
+output/
+.claude/
