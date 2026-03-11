@@ -22,8 +22,8 @@ GIT_REPOS=(
 	"https://github.com/tree-sitter/tree-sitter-ocaml.git"
 	"https://github.com/tree-sitter/tree-sitter-toml.git"
 	"https://github.com/tree-sitter/tree-sitter-c-sharp.git"
-	# 3rd party
 	"https://github.com/tree-sitter-grammars/tree-sitter-markdown.git"
+	"https://github.com/alex-pinkus/tree-sitter-swift.git"
 )
 
 function clone_git {
