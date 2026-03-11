@@ -23,6 +23,19 @@ GIT_REPOS=(
 	"https://github.com/tree-sitter/tree-sitter-toml.git"
 	"https://github.com/tree-sitter/tree-sitter-c-sharp.git"
 	"https://github.com/tree-sitter-grammars/tree-sitter-markdown.git"
+	"https://github.com/tree-sitter-grammars/tree-sitter-lua.git"
+	"https://github.com/tree-sitter-grammars/tree-sitter-query.git"
+	"https://github.com/tree-sitter-grammars/tree-sitter-make.git"
+	"https://github.com/tree-sitter-grammars/tree-sitter-yaml.git"
+	"https://github.com/tree-sitter-grammars/tree-sitter-vue.git"
+	"https://github.com/tree-sitter-grammars/tree-sitter-xml.git"
+	"https://github.com/tree-sitter-grammars/tree-sitter-scss.git"
+	"https://github.com/tree-sitter-grammars/tree-sitter-zig.git"
+	"https://github.com/tree-sitter-grammars/tree-sitter-bicep.git"
+	"https://github.com/tree-sitter-grammars/tree-sitter-svelte.git"
+	"https://github.com/tree-sitter-grammars/tree-sitter-objc.git"
+	"https://github.com/tree-sitter-grammars/tree-sitter-kotlin.git"
+	"https://github.com/tree-sitter-grammars/tree-sitter-puppet.git"
 	"https://github.com/alex-pinkus/tree-sitter-swift.git"
 )
 
@@ -58,7 +71,20 @@ ARRAY=( "ruby"
 	"toml"
 	"swift"
 	"c-sharp"
-	"markdown" )
+	"markdown"
+	"lua"
+	"query"
+	"make"
+	"yaml"
+	"vue"
+	"xml"
+	"scss"
+	"zig"
+	"bicep"
+	"svelte"
+	"objc"
+	"kotlin"
+	"puppet" )
 
 OUTPUT_DIR="treesitter"
 
@@ -94,6 +120,22 @@ function build {
 		build_markdown
 		return
 	fi
+	if [ "$dir" = "kotlin" ]; then
+		build_kotlin
+		return
+	fi
+	if [ "$dir" = "query" ]; then
+		build_query
+		return
+	fi
+	if [ "$dir" = "vue" ]; then
+		build_vue
+		return
+	fi
+	if [ "$dir" = "xml" ]; then
+		build_xml
+		return
+	fi
 	mkdir -p "$OUTPUT_DIR/${dir}"
 	cd "tree-sitter-${dir}"
 	git pull
@@ -126,7 +168,7 @@ function build_typescript {
 	git pull
 	tree-sitter build --wasm tsx	
 	cp tree-sitter-tsx.wasm "../$OUTPUT_DIR/tsx"
-	cp queries/*.scm "../$OUTPUT_DIR/tsx"
+	cp queries/{highlights,folds,indents}.scm "../$OUTPUT_DIR/tsx"
 	tree-sitter build --wasm typescript
 	cp tree-sitter-typescript.wasm "../$OUTPUT_DIR/typescript"
 	cp queries/{highlights,folds,indents}.scm "../$OUTPUT_DIR/typescript"
@@ -168,6 +210,54 @@ function build_swift {
 	npx tree-sitter build --wasm
 	cp tree-sitter-swift.wasm "../$OUTPUT_DIR/swift"
 	cp queries/{highlights,folds,indents}.scm "../$OUTPUT_DIR/${dir}"
+	cd ..
+}
+
+function build_query {
+	dir="query"
+	mkdir -p "$OUTPUT_DIR/query"
+	cd "tree-sitter-${dir}"
+	git pull
+	tree-sitter build --wasm	
+	cp tree-sitter-query.wasm "../$OUTPUT_DIR/query"
+	cp queries/query/{highlights,folds,indents}.scm "../$OUTPUT_DIR/query"
+	cd ..
+}
+
+function build_kotlin {
+	dir="kotlin"
+	mkdir -p "$OUTPUT_DIR/kotlin"
+	cd "tree-sitter-${dir}"
+	git pull
+	tree-sitter build --wasm	
+	cp tree-sitter-kotlin.wasm "../$OUTPUT_DIR/kotlin"
+	cp ../kotlin-queries/{highlights,folds,indents}.scm "../$OUTPUT_DIR/kotlin"
+	cd ..
+}
+
+function build_vue {
+	dir="vue"
+	mkdir -p "$OUTPUT_DIR/vue"
+	cd "tree-sitter-${dir}"
+	git pull
+	tree-sitter build --wasm	
+	cp tree-sitter-vue.wasm "../$OUTPUT_DIR/vue"
+	cp queries/vue/{highlights,folds,indents}.scm "../$OUTPUT_DIR/vue"
+	cd ..
+}
+
+function build_xml {
+	dir="xml"
+	mkdir -p "$OUTPUT_DIR/xml"
+	mkdir -p "$OUTPUT_DIR/dtd"
+	cd "tree-sitter-${dir}"
+	git pull
+	tree-sitter build --wasm xml
+	cp tree-sitter-xml.wasm "../$OUTPUT_DIR/xml"
+	cp queries/xml/{highlights,folds,indents}.scm "../$OUTPUT_DIR/xml"
+	tree-sitter build --wasm dtd
+	cp tree-sitter-dtd.wasm "../$OUTPUT_DIR/dtd"
+	cp queries/dtd/{highlights,folds,indents}.scm "../$OUTPUT_DIR/dtd"
 	cd ..
 }
 
