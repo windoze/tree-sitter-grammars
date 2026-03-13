@@ -120,10 +120,6 @@ function build {
 		build_markdown
 		return
 	fi
-	if [ "$dir" = "kotlin" ]; then
-		build_kotlin
-		return
-	fi
 	if [ "$dir" = "query" ]; then
 		build_query
 		return
@@ -277,5 +273,8 @@ for dir in "${ARRAY[@]}" ; do
 	#git clone --depth=1 $url
 	build $dir
 done
+
+# Add additional files which are missing in the original repos
+cp -a additions/* $OUTPUT_DIR
 
 python3 generate_registry.py $OUTPUT_DIR
