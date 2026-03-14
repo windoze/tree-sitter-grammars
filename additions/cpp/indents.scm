@@ -1,4 +1,4 @@
-; C folds
+; C indents
 [
   (function_definition)
   (struct_specifier)
@@ -11,6 +11,7 @@
   (while_statement)
   (do_statement)
   (switch_statement)
+  (case_statement)
 
   (compound_statement)
   (initializer_list)
@@ -18,16 +19,15 @@
   (enumerator_list)
   (declaration_list)
   (parameter_list)
+  (argument_list)
 
   (preproc_if)
   (preproc_ifdef)
   (preproc_elif)
   (preproc_else)
+] @indent.begin
 
-  (comment)
-] @fold
-
-; C++ folds
+; C++ indents
 [
   (class_specifier)
   (namespace_definition)
@@ -35,12 +35,16 @@
   (lambda_expression)
   (try_statement)
   (catch_clause)
-  (for_range_loop)
-  (concept_definition)
-  (requires_expression)
-  (requirement_seq)
-  (lambda_capture_specifier)
-  (field_initializer_list)
-  (template_parameter_list)
-  (template_argument_list)
-] @fold
+  (access_specifier)
+] @indent.begin
+
+[
+  "}"
+  "]"
+  ")"
+] @indent.branch @indent.end
+
+[
+  (comment)
+  (preproc_arg)
+] @indent.auto

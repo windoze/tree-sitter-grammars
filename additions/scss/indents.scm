@@ -1,25 +1,29 @@
-; CSS folds
+; CSS indents
 [
   (block)
+  (declaration)
   (rule_set)
   (media_statement)
   (keyframes_statement)
-  (keyframe_block_list)
-  (supports_statement)
   (at_rule)
-  (import_statement)+
-] @fold
+  (import_statement)
+] @indent.begin
 
-; SCSS folds
+; SCSS indents
 [
   (function_statement)
   (mixin_statement)
   (include_statement)
   (if_statement)
-  (else_if_clause)
   (else_clause)
+  (else_if_clause)
   (for_statement)
   (each_statement)
   (while_statement)
-  (at_root_statement)
-] @fold
+] @indent.begin
+
+"}" @indent.branch @indent.end
+
+[
+  (comment)
+] @indent.auto
